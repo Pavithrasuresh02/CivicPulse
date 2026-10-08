@@ -1,0 +1,8 @@
+import React from 'react';
+export function Shell({user,title,children,nav=[]}){const logout=()=>{localStorage.clear();location.href='/'};return <div className="app-shell"><header className="topbar"><div className="brand"><div className="logo">CP</div><div><strong>CivicPulse</strong><small>Your Problem. Our Priority.</small></div></div><nav>{nav.map(n=><a key={n.href} href={n.href}>{n.label}</a>)}<button className="ghost-btn" onClick={logout}>Sign out</button></nav></header><main className="page"><div className="page-title"><div><p className="eyebrow">{user?.role||'CIVIC PLATFORM'}</p><h1>{title}</h1></div><div className="user-chip">{user?.name||user?.fullName||'Citizen'}</div></div>{children}</main><footer className="footer">CivicPulse · Hackathon build · Civic recognitions are platform badges, not government awards.</footer></div>}
+export function Card({title,children,accent=false,className=''}){return <section className={`card ${accent?'accent':''} ${className}`}><div className="card-head">{title&&<h3>{title}</h3>}</div>{children}</section>}
+export function Stat({label,value,sub}){return <div className="stat"><div className="stat-value">{value}</div><div className="stat-label">{label}</div>{sub&&<div className="stat-sub">{sub}</div>}</div>}
+export function Badge({children,tone='default'}){return <span className={`badge ${tone.toLowerCase()}`}>{children}</span>}
+export function Loading(){return <div className="loading"><span/>Loading…</div>}
+export function ErrorBox({message}){return message?<div className="error-box">{message}</div>:null}
+export function Empty({text}){return <div className="empty">{text}</div>}

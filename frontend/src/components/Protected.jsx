@@ -1,0 +1,2 @@
+import React from 'react';import{Navigate,useLocation}from'react-router-dom';import{session}from'../lib/api.js';
+export default function Protected({role,children}){const s=session();const loc=useLocation();if(!s.token||!s.user)return <Navigate to="/" state={{from:loc.pathname}} replace/>;if(role&&!role.includes(s.user.role))return <Navigate to={s.user.role==='CITIZEN'?'/citizen':s.user.role==='OFFICER'?'/officer':'/admin'} replace/>;return children}

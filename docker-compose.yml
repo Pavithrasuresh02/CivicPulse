@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: civicpulse-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: civicpulse
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - civicpulse_pg:/var/lib/postgresql/data
+volumes:
+  civicpulse_pg:

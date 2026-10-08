@@ -1,0 +1,6 @@
+const BASE=import.meta.env.VITE_API_URL||'http://localhost:5000/api';
+async function request(path,options={}){const token=localStorage.getItem('civicpulse_token');const headers={...(options.headers||{})};if(token)headers.Authorization=`Bearer ${token}`;if(!(options.body instanceof FormData))headers['Content-Type']='application/json';const res=await fetch(`${BASE}${path}`,{...options,headers});let json;try{json=await res.json()}catch{json={}}if(!res.ok||json.success===false)throw new Error(json?.error?.message||`Request failed (${res.status})`);return json.data}
+export const api={get:(p)=>request(p),post:(p,b)=>request(p,{method:'POST',body:b instanceof FormData?b:JSON.stringify(b)}),patch:(p,b)=>request(p,{method:'PATCH',body:JSON.stringify(b)})};
+export function setSession(token,user){localStorage.setItem('civicpulse_token',token);localStorage.setItem('civicpulse_user',JSON.stringify(user))}
+export function session(){try{return{token:localStorage.getItem('civicpulse_token'),user:JSON.parse(localStorage.getItem('civicpulse_user')||'null')}}catch{return{token:null,user:null}}}
+export function clearSession(){localStorage.removeItem('civicpulse_token');localStorage.removeItem('civicpulse_user')}
